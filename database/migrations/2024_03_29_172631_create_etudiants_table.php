@@ -25,18 +25,17 @@ return new class extends Migration
             $table->string('birthLocation');
             $table->longText('adresse');
             $table->string('country');
-            $table->string('city');
-            $table->string('region');
-            $table->string('zipCode');
-            $table->string('fatherName');
-            $table->string('motherName');
-            $table->string('adresseParent');
-            $table->string('phoneParent');
-            $table->string('jobParent');
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
+            $table->string('zipCode')->nullable();
+            $table->string('fatherName')->nullable();
+            $table->string('motherName')->nullable();
+            $table->string('adresseParent')->nullable();
+            $table->string('phoneParent')->nullable();
+            $table->string('jobParent')->nullable();
             $table->string('number')->unique()->nullable();
             $table->unsignedBigInteger('classeId');
             $table->unsignedBigInteger('parcourId');
-            $table->longText('photo')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

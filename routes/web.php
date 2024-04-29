@@ -8,6 +8,7 @@ use App\Livewire\Matiere\MatiereForm;
 use App\Livewire\Parcour\ParcourForm;
 use App\Livewire\Teacher\TeacherForm;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Etudiants\AddStudent;
 
 // Routes pour le frontend
 Route::group(['domain' => 'esige.test'], function () {
@@ -35,6 +36,8 @@ Route::group(['domain' => 'scolx.esige.test'], function () {
             })->name('dashboard');
 
             Route::get('/etudiants', FetchAll::class)->name('etudiants');
+            Route::get('/ajouter-etudiants', AddStudent::class)->name('add_etudiants');
+
 
             Route::get('/niveau-etude', ClasseForm::class)->name('classe');
             Route::get('/parcours', ParcourForm::class)->name('parcour');

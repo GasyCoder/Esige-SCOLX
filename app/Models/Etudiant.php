@@ -14,8 +14,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Etudiant extends Model implements HasMedia
 {
-    use HasApiTokens, SoftDeletes, InteractsWithMedia;
-    use HasFactory, SoftDeletes;
+    use  HasFactory, HasApiTokens, SoftDeletes, InteractsWithMedia;
+
     protected $dates = ['deleted_at'];
     protected $table = 'etudiants';
     protected $appends = ['photo_url'];
@@ -24,29 +24,8 @@ class Etudiant extends Model implements HasMedia
         'uuid', 'isActive', 'typeFormation', 'fname', 'lname', 'sexe', 'email', 'phoneStudent',
         'birth', 'birthLocation', 'adresse', 'country', 'city', 'region', 'zipCode', 'fatherName',
         'motherName', 'adresseParent', 'phoneParent', 'jobParent', 'classeId', 'parcourId', 'number',
-        //'photo',
     ];
 
-    public function getPhotoUrlAttribute()
-    {
-        return $this->getFirstMedia('photo') ? $this->getFirstMedia('photo')->getUrl('preview') : null;
-    }
-
-
-    public function registerMediaColections()
-    {
-        $this->addMediaCollection('images')
-            ->singleFile();
-        $this->addMediaCollection('downloads')
-            ->singleFile();
-    }
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Fit::Crop, 300, 300)
-            ->nonQueued();
-    }
 
     protected static function boot()
     {
@@ -74,4 +53,51 @@ class Etudiant extends Model implements HasMedia
     {
         return $this->belongsTo(Parcour::class, 'parcourId');
     }
+
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->getFirstMedia('pre_inscriptions_files')?->getUrl('pre_inscriptions_files');
+    }
+
+
+        public function getFileExtensionAttribute()
+    {
+        $media = $this->getFirstMedia('pre_inscriptions_files');
+        return $media?->extension;
+    }
+
+    public function getFileSizeAttribute()
+    {
+        $media = $this->getFirstMedia('pre_inscriptions_files');
+        return $media ? $this->formatBytes($media->size) : null;
+    }
+
+    protected function formatBytes($bytes, $precision = 2)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= pow(1024, $pow);
+        return round($bytes, $precision) . ' ' . $units[$pow];
+    }
+
+    public function registerMediaColections()
+    {
+       $this->addMediaCollection('pre_inscriptions_files')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']);
+
+        $this->addMediaCollection('downloads')
+            ->singleFile();
+    }
+    
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('pre_inscriptions_files')
+            ->fit(Fit::Crop, 300, 300)
+            ->nonQueued();
+    }
+
 }

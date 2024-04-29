@@ -20,7 +20,7 @@ class MatiereForm extends Component
     public $teacher_id;
     public $classe_id;
     public $parcour_id;
-    public $is_active;
+    public $is_active, $commun;
     public $note;
     public $page = 10;
     public $matiereId;
@@ -37,6 +37,7 @@ class MatiereForm extends Component
             'is_active'         => $this->is_active ? true : false,
             'sigle'             => $this->sigle,
             'note'              => $this->note,
+            'commun'            => $this->commun ? true : false,
         ]);
 
         $matiere->parcours()->attach($this->parcour_id);
@@ -53,10 +54,17 @@ class MatiereForm extends Component
         $this->name             = $matiere->name;
         $this->classe_id        = $matiere->classe_id;
         $this->is_active        = $matiere->is_active ? true : false;
+        $this->commun           = $matiere->commun ? true : false;
         $this->sigle            = $matiere->sigle;
         $this->note             = $matiere->note;
         $this->matiereId        = $id;
-        $this->teacherCurrent   = $matiere->teacher->fullname;
+
+        // Vérification de nullité pour $matiere->teacher
+        if ($matiere->teacher) {
+            $this->teacherCurrent = $matiere->teacher->fullname;
+        } else {
+            $this->teacherCurrent = null;
+        }
     }
 
     public function updateTeacher()
@@ -83,6 +91,7 @@ class MatiereForm extends Component
             'name'              => $this->name,
             'classe_id'         => $this->classe_id,
             'is_active'         => $this->is_active ? true : false,
+            'commun'            => $this->commun ? true : false,
             'sigle'             => $this->sigle,
             'note'              => $this->note,
         ];

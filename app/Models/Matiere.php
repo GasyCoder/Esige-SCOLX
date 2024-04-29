@@ -18,7 +18,8 @@ class Matiere extends Model
         'classe_id',
         'uuid',
         'is_active',
-        'note,'
+        'note',
+        'commun'
     ];
 
     protected $casts = [

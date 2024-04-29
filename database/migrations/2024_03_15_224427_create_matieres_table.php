@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('classe_id');
             $table->string('uuid')->unique();
             $table->boolean('is_active')->default(false);
+            $table->boolean('commun')->default(false);
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

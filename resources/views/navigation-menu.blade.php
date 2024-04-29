@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('etudiants') }}" :active="request()->routeIs('etudiants')">
                         {{ __('Etudiants') }}
                     </x-nav-link>
+                     <x-nav-link href="{{ route('add_etudiants') }}" :active="request()->routeIs('add_etudiants')">
+                        {{ __('Ajouter étudiant') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ route('classe') }}" :active="request()->routeIs('classe')">
                         {{ __('Classes') }}
                     </x-nav-link>

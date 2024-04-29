@@ -35,7 +35,11 @@
                                 </select>
                             </div>
                         </div>
-
+                         <div class="flex items-center mt-4">
+                            <input id="default-checkbox" type="checkbox" wire:model="commun"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="default-checkbox" class="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300">Tron commun?</label>
+                        </div>
                         <div class="mt-6">
                             <label for="sigle" class="block text-sm font-medium leading-5 text-gray-700">
                                 Parcour
@@ -73,7 +77,9 @@
                         </div>
                     </form>
                 </div>
-
+        </div>
+        </div>     
+        <div class="py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 @if($matieres->count() > 0)
                 <table class="w-full overflow-x-auto divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -84,7 +90,7 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                Sigle
+                                Tronc commun
                             </th>
                             <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Classe
@@ -106,17 +112,18 @@
                                 <span
                                     class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                                     {{ $matiere->name }}
-                                </span>
-                                <small>
-                                    {{ $matiere->teacher->fullname }}
-                                </small>
+                                </span><br>
+                                @if($matiere->teacher)
+                                <small>{{ $matiere->teacher->fullname }}</small>
+                                @else
+                                <!-- Affichez un message d'erreur ou de remplacement ici -->
+                                <small class="text-red-600">Aucun professeur assigné</small>
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                {{ $matiere->sigle }}
+                                @if($matiere->commun == true ) Oui @else Non @endif
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                {{ $matiere->sigle }}
-                            </td>
+                            <td>{{ $classe['sigle'] }}</td>
                             <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                 @foreach($matiere->parcours as $parcour)
                                 <li>{{ $parcour['name'] }}</li>
@@ -141,9 +148,7 @@
                 @else
                 <p class="text-center text-red-600">Aucun matieres</p>
                 @endif
-            </div>
         </div>
-    </div>
-
+    </div>            
     @include('livewire.matieres.modal.add-teacher')
 </div>

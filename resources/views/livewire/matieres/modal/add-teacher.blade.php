@@ -14,13 +14,17 @@
                 </div>
                 <!-- Formulaire du modal -->
                 <form wire:submit.prevent="updateTeacher">
+                    @if(isset($teachers) && is_array($teachers) && count($teachers) > 0)
                     <div class="mb-4">
                         <label for="teacherCurrent" class="block mb-2 font-bold text-gray-700">Enseignant actuel:</label>
                         <input type="text" id="teacherCurrent" readonly wire:model="teacherCurrent"
                             class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                     </div>
-                    <div class="mb-4">
-                        <label for="teacher_id" class="block mb-2 font-bold text-gray-700">Enseignant:</label>
+                    @else
+                    <option value="" class="text-red-600">Aucun enseignant sur cette matière</option>
+                    @endif
+                    <div class="mb-4 mt-4">
+                        <label for="teacher_id" class="block mb-2 font-bold text-gray-700">Ajouter nouveau enseignant:</label>
                        <select id="teacher_id" wire:model="teacher_id"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="" selected>--select--</option>

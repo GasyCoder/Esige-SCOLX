@@ -67,53 +67,50 @@
                         </div>
                     </form>
                 </div>
-
-                @if($teachers->count() > 0)
-                <table class="w-full overflow-x-auto divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th scope="col"
-                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                Enseignant
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                Tél
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($teachers as $teacher)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                                    {{ $teacher->fullname }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                {{ $teacher->phone }}
-                            </td>
-                            <td class="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                <button wire:click="destroy({{$teacher->id}})"
-                                    class="ml-2 text-red-600 hover:text-red-900">Delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div>
-                    {{ $teachers->links() }}
-                </div>
-                @else
-                <p class="text-center text-red-600">Aucun Enseignants</p>
-                @endif
+            </div> 
+        </div>   
+        <div class="py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            @if($teachers->count() > 0)
+            <table class="w-full overflow-x-auto divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                            Enseignant
+                        </th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                            Tél
+                        </th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach($teachers as $teacher)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                                {{ $teacher->fullname }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                            {{ $teacher->phone }}
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                            <button wire:click="destroy({{$teacher->id}})"
+                                class="ml-2 text-red-600 hover:text-red-900">Delete</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div>
+                {{ $teachers->links() }}
             </div>
+            @else
+            <p class="text-center text-red-600">Aucun Enseignants</p>
+            @endif
         </div>
     </div>
 </div>

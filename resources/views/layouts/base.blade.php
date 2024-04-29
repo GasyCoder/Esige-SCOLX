@@ -1,43 +1,39 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <link rel="stylesheet" href="{{ asset('assets/libs/glightbox/dist/css/glightbox.min.css') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <meta name="author" content="BEZARA Florent">
-    <!-- Google Font hébergées-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <!-- Style CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/font-awesome/css/all.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/choices/css/choices.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/style.css') }}">
-
-    @livewireStyles
+    <meta name="author" content="GasyCoder">
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon/favicon.ico">
+    <!-- darkmode js -->
+    {{-- <script src="{{ asset('assets/js/vendors/darkMode.js') }}"></script> --}}
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet" />
     @stack('styles')
 </head>
 
-<body>
-
-    <!-- Page Content -->
+<body class="bg-white">
+    @include('layouts/partials/navbar')
+    <!-- ===== Page Start ===== -->
     <main>
         {{ $slot }}
     </main>
 
-    <!-- Back to top -->
-    <div class="back-top">
-        <i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Vendors -->
-    <script src="{{ asset('assets/vendor/choices/js/choices.min.js') }}"></script>
-    <!-- Template Functions -->
-    <script src="{{ asset('assets/js/functions.js') }}"></script>
-    
-    @livewireScripts
+    <script src="{{ asset('assets/libs/quill/dist/quill.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors/editor.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
+    <script src="{{ asset('assets/libs/popperjs/core/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+    <!-- Main JS -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
 </body>
 </html>

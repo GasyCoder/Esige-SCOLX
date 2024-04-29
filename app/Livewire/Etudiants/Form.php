@@ -6,13 +6,13 @@ use Livewire\Component;
 use App\Models\Etudiant;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
-use App\Livewire\Forms\EtudiantForm;
+use App\Models\Classe;
 
 class Form extends Component
 {   
     use WithFileUploads;
     
-    #[Validate('image|max:1024')]
+    #[Validate('nullable|image|max:1024')]
     public $photo;
     public $isActive = false;
     public $typeFormation = true;
@@ -35,6 +35,9 @@ class Form extends Component
     public $jobParent;
     public $classeId;
     public $parcourId;
+    public $cardFile;
+    public $baccFile, $otherFile = [];
+    public $isL1 = false;
 
     public function save()
     {
@@ -59,9 +62,11 @@ class Form extends Component
             'classeId' => 'required',
             'parcourId' => 'required',
             'photo' => 'required',
+            'cardFile' => 'required',
+            'baccFile' => 'required',
+            'otherFile' => 'required',
         ]);
         
-        //$photoProfile = $this->photo ? $this->photo->store('photos', 'public') : null;
         $etudiant = Etudiant::create([
             'isActive'              => false,
             'typeFormation'         => true,
@@ -84,18 +89,44 @@ class Form extends Component
             'jobParent'             => $this->jobParent,
             'classeId'              => $this->classeId,
             'parcourId'             => $this->parcourId,
-            //'photo'                 => $photoProfile,
         ]);
         if ($this->photo) {
             $etudiant->addMedia($this->photo->getRealPath())
-                ->usingName('photo de profil pour ' .$etudiant->fname)
-                ->toMediaCollection('photo');
+                ->usingName('photo d\'identité pour ' .$etudiant->fname)
+                ->toMediaCollection('pre_inscriptions_files');
+        }
+        if ($this->cardFile) {
+            $etudiant->addMedia($this->cardFile->getRealPath())
+                ->usingName('carte d\'identité pour ' .$etudiant->fname)
+                ->toMediaCollection('pre_inscriptions_files');
+        }
+        if ($this->baccFile) {
+            foreach ($this->baccFile as $file) {
+                $etudiant->addMedia($file->getRealPath())
+                    ->usingName('fichiers bacc ' . $etudiant->fname)
+                    ->toMediaCollection('pre_inscriptions_files');
+            }
+        }
+        if ($this->otherFile) {
+            foreach ($this->otherFile as $file) {
+                $etudiant->addMedia($file->getRealPath())
+                    ->usingName('fichiers divers ' . $etudiant->fname)
+                    ->toMediaCollection('pre_inscriptions_files');
+            }
         }
         //dd($etudiant);
         $this->reset();
         session()->flash('status', 'Etudiant successfully saved.');
         return $this->redirect('/');
     }
+
+    public function checkLevel()
+    {
+        $this->isL1 = $this->classeId == Classe::where('sigle', 'L1')->first()->id;
+        //$this->isL1 = true;
+    }
+
+
     public function render()
     {
         return view('livewire.etudiants.form');
